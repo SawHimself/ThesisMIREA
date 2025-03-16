@@ -1,0 +1,162 @@
+﻿@{
+    ViewData["Title"] = "Админ панель";
+}
+@using Services.SecuritySettings
+
+<h1>@ViewData["Title"]</h1>
+  <style type="text/css">
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 34px;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        border-radius: 50%;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+ </style>
+
+<h1 class="display-4">Настройки механизмов безопасности</h1>
+<p>
+    <h6>HTML экранирование</h6>
+    <div class="form-check">
+        <label class="switch">
+            @if (SecurityProvider.GetRule("UseHtmlEscaping"))
+            {
+                <input id="HtmlEscapeSwitch" type="checkbox" checked>
+            }
+            else
+            {
+                <input id="HtmlEscapeSwitch" type="checkbox">
+            }
+            <span class="slider"></span>
+        </label>
+    </div>
+</p>
+
+<p>
+    <h6>SQL экранирование</h6>
+    <div class="form-check">
+        <label class="switch">
+            @if (SecurityProvider.GetRule("UseSQLEscaping"))
+            {
+                <input id="test" type="checkbox" checked>
+            }
+            else
+            {
+                <input id="test" type="checkbox">
+            }
+            <span class="slider"></span>
+        </label>
+    </div>
+</p>
+
+<script>
+    document.getElementById('HtmlEscapeSwitch').addEventListener('change', function () {
+        // Создаем объект XMLHttpRequest
+        const xhr = new XMLHttpRequest();
+
+        // Определяем метод и URL для отправки данных
+        const url = `/api/admin/ToggleTest1`; // Используем обратные кавычки для шаблонной строки
+
+        // Подготавливаем данные для отправки
+        const data = JSON.stringify({
+            checked: this.checked // Значение this.checked будет true или false
+        });
+
+        // Настраиваем запрос
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+        // Обрабатываем ответ
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    console.log('Успешно отправлено:', xhr.responseText);
+                } else {
+                    console.error('Ошибка отправки:', xhr.status, xhr.statusText);
+                }
+            }
+        };
+
+        // Отправляем запрос
+        xhr.send(data);
+    });
+</script>
+
+@* <script>
+    document.getElementById('HtmlEscapeSwitch').addEventListener('change', function () {
+        // Создаем объект XMLHttpRequest
+        const xhr = new XMLHttpRequest();
+
+        // Определяем метод и URL для отправки данных
+        const url = `/home/ToggleTest1`; // Используем обратные кавычки для шаблонной строки
+
+        // Подготавливаем данные для отправки
+        const data = JSON.stringify({
+            checked: this.checked // Значение this.checked будет true или false
+        });
+
+        // Настраиваем запрос
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+        // Обрабатываем ответ
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    console.log('Успешно отправлено:', xhr.responseText);
+                } else {
+                    console.error('Ошибка отправки:', xhr.status, xhr.statusText);
+                }
+            }
+        };
+
+        // Отправляем запрос
+        xhr.send(data);
+    });
+</script> *@

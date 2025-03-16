@@ -1,0 +1,66 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@using Services.SecuritySettings;
+
+<div class="text-center">
+    <h1 class="display-4">РТУ МИРЭА</h1>
+
+    <div class="container">
+        <div class="row">
+            <!-- Блок с таблицей -->
+            <div class="col-md-6">
+                <!-- Таблица займет половину ширины контейнера -->
+                <h2>Все данные</h2>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Данные</th>
+                            <th>Описание данных</th>
+                            <th>Дата обновления</th>
+                            <th>Дата создания</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var secret in Model)
+                        {
+                            <tr>
+                                @if (SecurityProvider.GetRule("UseHtmlEscaping"))
+                                {
+                                    <td>@secret.Data</td>
+                                    <td>@secret.Description</td>
+                                }
+                                else
+                                {
+                                    <td>@Html.Raw(secret.Data)</td>
+                                    <td>@Html.Raw(@secret.Description)</td>
+                                }
+                                <td>@secret.UpdateDate?.ToString("yyyy-MM-dd")</td>
+                                <td>@secret.CreationDate?.ToString("yyyy-MM-dd")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-5">
+                <div>
+                    <h2>Добавить секретные данные</h2>
+                    <form asp-action="AddSecret" method="post">
+                        <div class="mb-1">
+                            <label for="data" class="float-start">Данные:</label>
+                            <input type="text" id="data" name="Data" class="form-control" required />
+                        </div>
+                        <div class="mb-1">
+                            <label for="description" class="float-start">Описание:</label>
+                            <input type="text" id="description" name="Description" class="form-control" required />
+                        </div>
+                        <div class="mb-1">
+                            <input type="submit" value="Добавить" class="btn btn-primary btn-sm float-start" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

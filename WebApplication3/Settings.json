@@ -1,0 +1,6 @@
+{
+  "Rule": {
+    "UseHtmlEscaping": true,
+    "UseSQLEscaping": false
+  }
+}
