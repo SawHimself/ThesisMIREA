@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Content Remove="Settings.json" />
+    <Content Remove="wwwroot\icons\DeleteIcon.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,6 +28,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Services\Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="wwwroot\icons\DeleteIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

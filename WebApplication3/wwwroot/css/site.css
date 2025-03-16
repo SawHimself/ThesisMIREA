@@ -20,3 +20,19 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.custom-btn {
+    background-color: #ccc; /* Серый фон */
+    border: none; /* Убираем границы */
+    border-radius: 5px; /* Делаем кнопку квадратной (убираем скругление) */
+    padding: 5px; /* Уменьшаем отступы */
+    width: 40px; /* Размер кнопки */
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.custom-btn:hover {
+    background-color: #aaa; /* Темнее при наведении */
+}

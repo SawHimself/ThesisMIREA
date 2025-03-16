@@ -127,36 +127,3 @@
         xhr.send(data);
     });
 </script>
-
-@* <script>
-    document.getElementById('HtmlEscapeSwitch').addEventListener('change', function () {
-        // Создаем объект XMLHttpRequest
-        const xhr = new XMLHttpRequest();
-
-        // Определяем метод и URL для отправки данных
-        const url = `/home/ToggleTest1`; // Используем обратные кавычки для шаблонной строки
-
-        // Подготавливаем данные для отправки
-        const data = JSON.stringify({
-            checked: this.checked // Значение this.checked будет true или false
-        });
-
-        // Настраиваем запрос
-        xhr.open('POST', url, true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-
-        // Обрабатываем ответ
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    console.log('Успешно отправлено:', xhr.responseText);
-                } else {
-                    console.error('Ошибка отправки:', xhr.status, xhr.statusText);
-                }
-            }
-        };
-
-        // Отправляем запрос
-        xhr.send(data);
-    });
-</script> *@

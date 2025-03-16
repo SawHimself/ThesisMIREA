@@ -19,6 +19,7 @@
                             <th>Описание данных</th>
                             <th>Дата обновления</th>
                             <th>Дата создания</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -37,6 +38,15 @@
                                 }
                                 <td>@secret.UpdateDate?.ToString("yyyy-MM-dd")</td>
                                 <td>@secret.CreationDate?.ToString("yyyy-MM-dd")</td>
+
+                                <form asp-action="DeleteSecret" method="post">
+                                    <input type="hidden" name="DataId" value="@secret.Id" />
+                                    <td>
+                                        <button type="submit" class="btn btn-sm custom-btn">
+                                            <img src="~/icons/DeleteIcon.png" alt="Delete" width="30" height="30">
+                                        </button>
+                                    </td>
+                                </form>
                             </tr>
                         }
                     </tbody>

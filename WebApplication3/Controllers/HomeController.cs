@@ -64,11 +64,17 @@ namespace WebApplication3.Controllers
 
             return RedirectToAction("Index");
         }
-        [HttpDelete]
-        public async Task<IActionResult> DeleteSecret(int DataId)
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteSecret(string DataId)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            
+            var currentData = await _context.secrets.FirstOrDefaultAsync(s => s.Id == DataId & s.UserId == userId);
+            if(currentData != null)
+            {
+                _context.secrets.Remove(currentData);
+                _context.SaveChanges();
+            }
             //_context.secrets.Delete
             return RedirectToAction("Index");
         }
