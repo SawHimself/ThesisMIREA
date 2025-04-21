@@ -1,6 +1,9 @@
 {
   "Rule": {
     "UseHtmlEscaping": true,
-    "UseSQLEscaping": false
+    "UseSQLEscaping": true,
+    "UseCSP": true,
+    "UseCORS": true,
+    "UseXFrameOptions": false
   }
 }

@@ -1,4 +1,4 @@
-﻿@{
+﻿    @{
     ViewData["Title"] = "Админ панель";
 }
 @using Services.SecuritySettings
@@ -61,6 +61,7 @@
  </style>
 
 <h1 class="display-4">Настройки механизмов безопасности</h1>
+
 <p>
     <h6>HTML экранирование</h6>
     <div class="form-check">
@@ -84,11 +85,36 @@
         <label class="switch">
             @if (SecurityProvider.GetRule("UseSQLEscaping"))
             {
-                <input id="test" type="checkbox" checked>
+                <input id="UseSQLEscaping" type="checkbox" checked>
             }
             else
             {
-                <input id="test" type="checkbox">
+                <input id="UseSQLEscaping" type="checkbox">
+            }
+            <span class="slider"></span>
+        </label>
+    </div>
+</p>
+
+<p>
+<h6>Валидация данных на стороне сервера</h6>
+<div class="form-check">
+    <label class="switch">
+    </label>
+</div>
+</p>
+
+<p>
+    <h6>X-FRAME-OPTIONS</h6>
+    <div class="form-check">
+        <label class="switch">
+            @if (SecurityProvider.GetRule("UseXFrameOptions"))
+            {
+                <input id="UseXFrameOptions" type="checkbox" checked>
+            }
+            else
+            {
+                <input id="UseXFrameOptions" type="checkbox">
             }
             <span class="slider"></span>
         </label>
@@ -96,12 +122,78 @@
 </p>
 
 <script>
-    document.getElementById('HtmlEscapeSwitch').addEventListener('change', function () {
+    document.getElementById('UseXFrameOptions').addEventListener('change', function () {
         // Создаем объект XMLHttpRequest
         const xhr = new XMLHttpRequest();
 
         // Определяем метод и URL для отправки данных
-        const url = `/api/admin/ToggleTest1`; // Используем обратные кавычки для шаблонной строки
+        const url = `/api/admin/ChangeXFrameOptions`; // Используем обратные кавычки для шаблонной строки
+
+        // Подготавливаем данные для отправки
+        const data = JSON.stringify({
+            checked: this.checked // Значение this.checked будет true или false
+        });
+
+        // Настраиваем запрос
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+        // Обрабатываем ответ
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    console.log('Успешно отправлено:', xhr.responseText);
+                } else {
+                    console.error('Ошибка отправки:', xhr.status, xhr.statusText);
+                }
+            }
+        };
+
+        // Отправляем запрос
+        xhr.send(data);
+    });
+</script>
+
+<script>
+    document.getElementById('UseHtmlEscaping').addEventListener('change', function () {
+        // Создаем объект XMLHttpRequest
+        const xhr = new XMLHttpRequest();
+
+        // Определяем метод и URL для отправки данных
+        const url = `/api/admin/ChangeHtmlEscaping`; // Используем обратные кавычки для шаблонной строки
+
+        // Подготавливаем данные для отправки
+        const data = JSON.stringify({
+            checked: this.checked // Значение this.checked будет true или false
+        });
+
+        // Настраиваем запрос
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+        // Обрабатываем ответ
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    console.log('Успешно отправлено:', xhr.responseText);
+                } else {
+                    console.error('Ошибка отправки:', xhr.status, xhr.statusText);
+                }
+            }
+        };
+
+        // Отправляем запрос
+        xhr.send(data);
+    });
+</script>
+
+<script>
+    document.getElementById('UseSqlEscaping').addEventListener('change', function () {
+        // Создаем объект XMLHttpRequest
+        const xhr = new XMLHttpRequest();
+
+        // Определяем метод и URL для отправки данных
+        const url = `/api/admin/ChangeSqlEscaping`; // Используем обратные кавычки для шаблонной строки
 
         // Подготавливаем данные для отправки
         const data = JSON.stringify({

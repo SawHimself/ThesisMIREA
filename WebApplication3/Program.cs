@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Services.SecuritySettings;
 using System.Diagnostics;
 using WebApplication3.Data;
 using WebApplication3.Models;
@@ -22,6 +23,17 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddAntiforgery(options =>
+{
+    if(SecurityProvider.GetRule("UseXFrameOptions"))
+    {
+        options.SuppressXFrameOptionsHeader = false;
+    }
+    else
+    {
+        options.SuppressXFrameOptionsHeader = true;
+    }
+});
 
 var app = builder.Build();
 
