@@ -23,6 +23,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
 builder.Services.AddAntiforgery(options =>
 {
     if(SecurityProvider.GetRule("UseXFrameOptions"))
@@ -35,6 +36,25 @@ builder.Services.AddAntiforgery(options =>
     }
 });
 
+// Configuring CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("DefaultPolicy", policy =>
+    {
+        policy.WithOrigins(
+                "http://localhost",
+                "http://localhost:5000",
+                "https://localhost:5001",
+                "http://127.0.0.1",
+                "localhost:5222"
+            )
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -43,6 +63,30 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
+}
+
+// Configuring CORS
+if (SecurityProvider.GetRule("UseCORS"))
+{
+    app.UseCors("DefaultPolicy");
+}
+// Configuring CSP
+if(SecurityProvider.GetRule("UseCSP"))
+{
+    app.Use(async (context, next) =>
+    {
+        context.Response.Headers.Append("Content-Security-Policy",
+            "default-src 'self'; script-src 'self'");
+        await next();
+    });
+}
+else
+{
+    app.Use(async (context, next) =>
+    {
+        context.Response.Headers.Remove("Content-Security-Policy");
+        await next();
+    });
 }
 
 app.UseHttpsRedirection();
@@ -73,8 +117,9 @@ public class RequestTimingMiddleware
     public async Task InvokeAsync(HttpContext context)
     {
         var stopwatch = Stopwatch.StartNew();
-
-        await _next(context); // Передаем управление следующему компоненту
+        
+        // Передаем управление следующему компоненту
+        await _next(context);
 
         stopwatch.Stop();
         var elapsedMilliseconds = stopwatch.ElapsedMilliseconds;

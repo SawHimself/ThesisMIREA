@@ -9,7 +9,6 @@ namespace WebApplication3.Controllers
     [ApiController]
     public class AdminController : Controller
     {
-
         [HttpPost("ChangeHtmlEscaping")]
         public IActionResult ChangeHtmlEscaping([FromBody] ToggleRequest? request)
         {
@@ -17,6 +16,7 @@ namespace WebApplication3.Controllers
             {
                 return BadRequest("Неверные данные запроса.");
             }
+
             bool isChecked = request.Checked;
 
             if (SecurityProvider.UpdateRule("UseHtmlEscaping", isChecked))
@@ -28,7 +28,7 @@ namespace WebApplication3.Controllers
                 return StatusCode(500);
             }
         }
-        
+
         [HttpPost("ChangeSqlEscaping")]
         public IActionResult ChangeSqlEscaping([FromBody] ToggleRequest? request)
         {
@@ -36,6 +36,7 @@ namespace WebApplication3.Controllers
             {
                 return BadRequest("Неверные данные запроса.");
             }
+
             bool isChecked = request.Checked;
 
             if (SecurityProvider.UpdateRule("UseSQLEscaping", isChecked))
@@ -55,6 +56,7 @@ namespace WebApplication3.Controllers
             {
                 return BadRequest("Неверные данные запроса.");
             }
+
             bool isChecked = request.Checked;
 
             if (SecurityProvider.UpdateRule("UseXFrameOptions", isChecked))
@@ -67,13 +69,45 @@ namespace WebApplication3.Controllers
             }
         }
 
-        /*        
-        [HttpGet("test")]
-        public IActionResult Test()
+        [HttpPost("ChangeCorsOptions")]
+        public IActionResult ChangeCorsOptions([FromBody] ToggleRequest? request)
         {
-            return StatusCode(200, "Нашёл!");
+            if (request == null)
+            {
+                return BadRequest("Неверные данные запроса.");
+            }
+
+            bool isChecked = request.Checked;
+
+            if (SecurityProvider.UpdateRule("UseCORS", isChecked))
+            {
+                return Ok(new { message = "Данные успешно обработаны", status = isChecked });
+            }
+            else
+            {
+                return StatusCode(500);
+            }
         }
-        */
+
+        [HttpPost("ChangeCspOptions")]
+        public IActionResult ChangeCspOptions([FromBody] ToggleRequest? request)
+        {
+            if (request == null)
+            {
+                return BadRequest("Неверные данные запроса.");
+            }
+
+            bool isChecked = request.Checked;
+
+            if (SecurityProvider.UpdateRule("UseCSP", isChecked))
+            {
+                return Ok(new { message = "Данные успешно обработаны", status = isChecked });
+            }
+            else
+            {
+                return StatusCode(500);
+            }
+        }
 
         public class ToggleRequest
         {

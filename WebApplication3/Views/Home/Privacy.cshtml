@@ -3,7 +3,13 @@
 }
 @using Services.SecuritySettings
 
-<h1>@ViewData["Title"]</h1>
+<div style="display: flex; align-items: center;">
+        <h1 style="margin: 0;">@ViewData["Title"]</h1>
+        <span id="rebootRequiredMessage">
+        Требуется перезагрузка
+    </span>
+</div>
+
   <style type="text/css">
     .switch {
         position: relative;
@@ -58,6 +64,48 @@
         -ms-transform: translateX(26px);
         transform: translateX(26px);
     }
+    #rebootRequiredMessage {
+        display: none;
+        margin-left: 25px;
+        margin-top: 10px;
+        padding: 10px 10px;
+        border-radius: 20px;
+        background-color: red;
+        color: white;
+        font-size: large;
+        font-weight: bold;
+    }
+
+    .toggle-description {
+        background: none;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        font-size: 18px;
+        line-height: 1;
+        padding: 0;
+        margin: 20px;
+        user-select: none;
+    }
+
+    .toggle-description:focus,
+    .toggle-description:active {
+        margin: 20px;
+        outline: none;
+        box-shadow: none;
+    }
+
+    .description-text {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-height 0.5s ease, opacity 0.5s ease;
+    }
+
+    .description-text.show {
+        max-height: 200px;
+        opacity: 1;
+    }
  </style>
 
 <h1 class="display-4">Настройки механизмов безопасности</h1>
@@ -68,14 +116,25 @@
         <label class="switch">
             @if (SecurityProvider.GetRule("UseHtmlEscaping"))
             {
-                <input id="HtmlEscapeSwitch" type="checkbox" checked>
+                <input id="HtmlEscapeSwitch" type="checkbox" data-api-endpoint="ChangeHtmlEscaping" checked>
             }
             else
             {
-                <input id="HtmlEscapeSwitch" type="checkbox">
+                <input id="HtmlEscapeSwitch" type="checkbox" data-api-endpoint="ChangeHtmlEscaping">
             }
             <span class="slider"></span>
         </label>
+    </div>
+    <button class="toggle-description btn btn-light">
+        ▼
+    </button>
+
+    <div class="description-text">
+        <p>
+            Экранирование HTML помогает защитить приложение от XSS-атак, <br>
+            преобразуя специальные символы в безопасные текстовые представления. <br>
+            Это предотвращает внедрение вредоносного HTML или JavaScript в страницы.<br>
+        </p>
     </div>
 </p>
 
@@ -85,23 +144,44 @@
         <label class="switch">
             @if (SecurityProvider.GetRule("UseSQLEscaping"))
             {
-                <input id="UseSQLEscaping" type="checkbox" checked>
+                <input id="UseSqlEscaping" type="checkbox" data-api-endpoint="ChangeSqlEscaping" checked>
             }
             else
             {
-                <input id="UseSQLEscaping" type="checkbox">
+                <input id="UseSqlEscaping" type="checkbox" data-api-endpoint="ChangeSqlEscaping">
             }
             <span class="slider"></span>
         </label>
     </div>
+    <button class="toggle-description btn btn-light">
+        ▼
+    </button>
+
+    <div class="description-text">
+        <p>
+            Экранирование SQL-данных защищает от SQL-инъекций, автоматически обрабатывая пользовательский ввод<br>
+            и не позволяя ему изменять структуру SQL-запросов.<br>
+        </p>
+    </div>
 </p>
 
 <p>
-<h6>Валидация данных на стороне сервера</h6>
-<div class="form-check">
-    <label class="switch">
-    </label>
-</div>
+    <h6>Валидация данных на стороне сервера</h6>
+    <div class="form-check">
+        <label class="switch">
+            <!-- Место под input при необходимости -->
+        </label>
+    </div>
+    <button class="toggle-description btn btn-light">
+        ▼
+    </button>
+
+    <div class="description-text">
+        <p>
+            Валидация проверяет данные перед их обработкой на сервере, даже если они уже были проверены в браузере.<br> 
+            Это предотвращает отправку некорректной или вредоносной информации.<br>
+        </p>
+    </div>
 </p>
 
 <p>
@@ -110,112 +190,95 @@
         <label class="switch">
             @if (SecurityProvider.GetRule("UseXFrameOptions"))
             {
-                <input id="UseXFrameOptions" type="checkbox" checked>
+                <input id="UseXFrameOptions" type="checkbox" data-api-endpoint="ChangeXFrameOptions" checked>
             }
             else
             {
-                <input id="UseXFrameOptions" type="checkbox">
+                <input id="UseXFrameOptions" type="checkbox" data-api-endpoint="ChangeXFrameOptions">
             }
             <span class="slider"></span>
         </label>
     </div>
+    <button class="toggle-description btn btn-light">
+        ▼
+    </button>
+
+    <div class="description-text">
+        <p>
+            X-FRAME-OPTIONS предотвращает загрузку вашего сайта в iframe на другом ресурсе,<br>
+            что защищает от clickjacking-атак.<br>
+        </p>
+    </div>
 </p>
 
-<script>
-    document.getElementById('UseXFrameOptions').addEventListener('change', function () {
-        // Создаем объект XMLHttpRequest
-        const xhr = new XMLHttpRequest();
-
-        // Определяем метод и URL для отправки данных
-        const url = `/api/admin/ChangeXFrameOptions`; // Используем обратные кавычки для шаблонной строки
-
-        // Подготавливаем данные для отправки
-        const data = JSON.stringify({
-            checked: this.checked // Значение this.checked будет true или false
-        });
-
-        // Настраиваем запрос
-        xhr.open('POST', url, true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-
-        // Обрабатываем ответ
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    console.log('Успешно отправлено:', xhr.responseText);
-                } else {
-                    console.error('Ошибка отправки:', xhr.status, xhr.statusText);
-                }
+<p>
+    <h6>CORS политика</h6>
+    <div class="form-check">
+        <label class="switch">
+            @if (SecurityProvider.GetRule("UseCORS"))
+            {
+                <input id="UseCors" type="checkbox" data-api-endpoint="ChangeCorsOptions" checked>
             }
-        };
+            else
+            {
+                <input id="UseCors" type="checkbox" data-api-endpoint="ChangeCorsOptions">
+            }
+            <span class="slider"></span>
+        </label>
+    </div>
+    <button class="toggle-description btn btn-light">
+        ▼
+    </button>
 
-        // Отправляем запрос
-        xhr.send(data);
+    <div class="description-text">
+        <p>
+            CORS (Cross-Origin Resource Sharing) управляет доступом к ресурсам с других доменов,<br>
+            ограничивая или разрешая взаимодействие между разными сайтами.<br>
+            Это важно для защиты от несанкционированных запросов.<br>
+        </p>
+    </div>
+</p>
+
+
+
+<script>
+    document.querySelectorAll('input[type="checkbox"][data-api-endpoint]').forEach(function (checkbox) {
+        checkbox.addEventListener('change', function () {
+            const url = `/api/admin/${this.getAttribute('data-api-endpoint')}`;
+            const data = JSON.stringify({ checked: this.checked });
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', url, true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        console.log(`Настройка "${checkbox.id}" успешно отправлена:`, xhr.responseText);
+
+                        if (checkbox.id === "UseCors") {
+                            const notice = document.getElementById("rebootRequiredMessage");
+                            notice.style.display = 'inline-block';
+                        }
+
+                    } else {
+                        console.error(`Ошибка при отправке настройки "${checkbox.id}":`, xhr.status, xhr.statusText);
+                    }
+                }
+            };
+
+            xhr.send(data);
+        });
     });
 </script>
 
 <script>
-    document.getElementById('UseHtmlEscaping').addEventListener('change', function () {
-        // Создаем объект XMLHttpRequest
-        const xhr = new XMLHttpRequest();
+    document.querySelectorAll('.toggle-description').forEach(function(button) {
+        button.addEventListener('click', function () {
+            const description = this.nextElementSibling;
+            description.classList.toggle('show');
 
-        // Определяем метод и URL для отправки данных
-        const url = `/api/admin/ChangeHtmlEscaping`; // Используем обратные кавычки для шаблонной строки
-
-        // Подготавливаем данные для отправки
-        const data = JSON.stringify({
-            checked: this.checked // Значение this.checked будет true или false
+            this.textContent = description.classList.contains('show') ? "▲" : "▼";
         });
-
-        // Настраиваем запрос
-        xhr.open('POST', url, true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-
-        // Обрабатываем ответ
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    console.log('Успешно отправлено:', xhr.responseText);
-                } else {
-                    console.error('Ошибка отправки:', xhr.status, xhr.statusText);
-                }
-            }
-        };
-
-        // Отправляем запрос
-        xhr.send(data);
-    });
-</script>
-
-<script>
-    document.getElementById('UseSqlEscaping').addEventListener('change', function () {
-        // Создаем объект XMLHttpRequest
-        const xhr = new XMLHttpRequest();
-
-        // Определяем метод и URL для отправки данных
-        const url = `/api/admin/ChangeSqlEscaping`; // Используем обратные кавычки для шаблонной строки
-
-        // Подготавливаем данные для отправки
-        const data = JSON.stringify({
-            checked: this.checked // Значение this.checked будет true или false
-        });
-
-        // Настраиваем запрос
-        xhr.open('POST', url, true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-
-        // Обрабатываем ответ
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    console.log('Успешно отправлено:', xhr.responseText);
-                } else {
-                    console.error('Ошибка отправки:', xhr.status, xhr.statusText);
-                }
-            }
-        };
-
-        // Отправляем запрос
-        xhr.send(data);
     });
 </script>
