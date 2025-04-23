@@ -6,10 +6,14 @@
 <div style="display: flex; align-items: center;">
         <h1 style="margin: 0;">@ViewData["Title"]</h1>
         <span id="rebootRequiredMessage">
-        Требуется перезагрузка
-    </span>
+            Требуется перезагрузка
+        </span>
 </div>
-
+<div>
+    <p style="text-indent: 30px; margin-top: 5px">Данная страница предназначена для конфигурации параметров безопасности веб-приложения. В рамках предоставленного функционала администратор имеет возможность управлять включением и отключением встроенных механизмов защиты в соответствии с текущими задачами тестирования или эксплуатации.</p>
+    <p style="text-indent: 30px; margin-top: 5px">Кроме того, на странице реализована возможность просмотра журнала событий, фиксирующего время обработки входящих HTTP-запросов, что позволяет проводить оценку влияния активных защитных механизмов на производительность приложения. </p>
+    <p style="text-indent: 30px; margin-top: 5px;">Обращаем внимание, что применение изменений в настройках отдельных механизмов защиты требует перезапуска веб-приложения, поскольку такие изменения затрагивают элементы архитектуры, инициализируемые на этапе старта системы.</p>
+</div>
   <style type="text/css">
     .switch {
         position: relative;
@@ -70,7 +74,7 @@
         margin-top: 10px;
         padding: 10px 10px;
         border-radius: 20px;
-        background-color: red;
+        background-color: #E60000;
         color: white;
         font-size: large;
         font-weight: bold;
@@ -84,18 +88,18 @@
         font-size: 18px;
         line-height: 1;
         padding: 0;
-        margin: 20px;
         user-select: none;
+        margin-bottom: 10px;
     }
 
     .toggle-description:focus,
     .toggle-description:active {
-        margin: 20px;
         outline: none;
         box-shadow: none;
     }
 
     .description-text {
+        color: #b0b7c6;
         max-height: 0;
         overflow: hidden;
         opacity: 0;
@@ -106,138 +110,129 @@
         max-height: 200px;
         opacity: 1;
     }
+    
  </style>
 
 <h1 class="display-4">Настройки механизмов безопасности</h1>
 
-<p>
-    <h6>HTML экранирование</h6>
-    <div class="form-check">
-        <label class="switch">
-            @if (SecurityProvider.GetRule("UseHtmlEscaping"))
-            {
-                <input id="HtmlEscapeSwitch" type="checkbox" data-api-endpoint="ChangeHtmlEscaping" checked>
-            }
-            else
-            {
-                <input id="HtmlEscapeSwitch" type="checkbox" data-api-endpoint="ChangeHtmlEscaping">
-            }
-            <span class="slider"></span>
-        </label>
-    </div>
-    <button class="toggle-description btn btn-light">
-        ▼
-    </button>
+<h3>HTML экранирование</h3>
+<button class="toggle-description btn btn-light">
+    ▼
+</button>
 
-    <div class="description-text">
-        <p>
-            Экранирование HTML помогает защитить приложение от XSS-атак, <br>
-            преобразуя специальные символы в безопасные текстовые представления. <br>
-            Это предотвращает внедрение вредоносного HTML или JavaScript в страницы.<br>
-        </p>
-    </div>
-</p>
+<div class="description-text">
+    <p>
+        Экранирование HTML помогает защитить приложение от XSS-атак, <br>
+        преобразуя специальные символы в безопасные текстовые представления. <br>
+        Это предотвращает внедрение вредоносного HTML или JavaScript в страницы.<br>
+    </p>
+</div>
+<div class="form-check">
+    <label class="switch">
+        @if (SecurityProvider.GetRule("UseHtmlEscaping"))
+        {
+            <input id="HtmlEscapeSwitch" type="checkbox" data-api-endpoint="ChangeHtmlEscaping" checked>
+        }
+        else
+        {
+            <input id="HtmlEscapeSwitch" type="checkbox" data-api-endpoint="ChangeHtmlEscaping">
+        }
+        <span class="slider"></span>
+    </label>
+</div>
 
-<p>
-    <h6>SQL экранирование</h6>
-    <div class="form-check">
-        <label class="switch">
-            @if (SecurityProvider.GetRule("UseSQLEscaping"))
-            {
-                <input id="UseSqlEscaping" type="checkbox" data-api-endpoint="ChangeSqlEscaping" checked>
-            }
-            else
-            {
-                <input id="UseSqlEscaping" type="checkbox" data-api-endpoint="ChangeSqlEscaping">
-            }
-            <span class="slider"></span>
-        </label>
-    </div>
-    <button class="toggle-description btn btn-light">
-        ▼
-    </button>
+<h3>SQL экранирование</h3>
+<button class="toggle-description btn btn-light">
+    ▼
+</button>
 
-    <div class="description-text">
-        <p>
-            Экранирование SQL-данных защищает от SQL-инъекций, автоматически обрабатывая пользовательский ввод<br>
-            и не позволяя ему изменять структуру SQL-запросов.<br>
-        </p>
-    </div>
-</p>
+<div class="description-text">
+    <p>
+        Экранирование SQL-данных защищает от SQL-инъекций, автоматически обрабатывая пользовательский ввод<br>
+        и не позволяя ему изменять структуру SQL-запросов.<br>
+    </p>
+</div>
+<div class="form-check">
+    <label class="switch">
+        @if (SecurityProvider.GetRule("UseSQLEscaping"))
+        {
+            <input id="UseSqlEscaping" type="checkbox" data-api-endpoint="ChangeSqlEscaping" checked>
+        }
+        else
+        {
+            <input id="UseSqlEscaping" type="checkbox" data-api-endpoint="ChangeSqlEscaping">
+        }
+        <span class="slider"></span>
+    </label>
+</div>
 
-<p>
-    <h6>Валидация данных на стороне сервера</h6>
-    <div class="form-check">
-        <label class="switch">
-            <!-- Место под input при необходимости -->
-        </label>
-    </div>
-    <button class="toggle-description btn btn-light">
-        ▼
-    </button>
+<h3>Валидация данных на стороне сервера</h3>
+<button class="toggle-description btn btn-light">
+    ▼
+</button>
 
-    <div class="description-text">
-        <p>
-            Валидация проверяет данные перед их обработкой на сервере, даже если они уже были проверены в браузере.<br> 
-            Это предотвращает отправку некорректной или вредоносной информации.<br>
-        </p>
-    </div>
-</p>
+<div class="description-text">
+    <p>
+        Валидация проверяет данные перед их обработкой на сервере, даже если они уже были проверены в браузере.<br>
+        Это предотвращает отправку некорректной или вредоносной информации.<br>
+    </p>
+</div>
+<div class="form-check">
+    <label class="switch">
+        <!-- Место под input при необходимости -->
+    </label>
+</div>
 
-<p>
-    <h6>X-FRAME-OPTIONS</h6>
-    <div class="form-check">
-        <label class="switch">
-            @if (SecurityProvider.GetRule("UseXFrameOptions"))
-            {
-                <input id="UseXFrameOptions" type="checkbox" data-api-endpoint="ChangeXFrameOptions" checked>
-            }
-            else
-            {
-                <input id="UseXFrameOptions" type="checkbox" data-api-endpoint="ChangeXFrameOptions">
-            }
-            <span class="slider"></span>
-        </label>
-    </div>
-    <button class="toggle-description btn btn-light">
-        ▼
-    </button>
+<h3>X-FRAME-OPTIONS</h3>
+<button class="toggle-description btn btn-light">
+    ▼
+</button>
 
-    <div class="description-text">
-        <p>
-            X-FRAME-OPTIONS предотвращает загрузку вашего сайта в iframe на другом ресурсе,<br>
-            что защищает от clickjacking-атак.<br>
-        </p>
-    </div>
-</p>
+<div class="description-text">
+    <p>
+        X-FRAME-OPTIONS предотвращает загрузку вашего сайта в iframe на другом ресурсе,<br>
+        что защищает от clickjacking-атак.<br>
+    </p>
+</div>
+<div class="form-check">
+    <label class="switch">
+        @if (SecurityProvider.GetRule("UseXFrameOptions"))
+        {
+            <input id="UseXFrameOptions" type="checkbox" data-api-endpoint="ChangeXFrameOptions" checked>
+        }
+        else
+        {
+            <input id="UseXFrameOptions" type="checkbox" data-api-endpoint="ChangeXFrameOptions">
+        }
+        <span class="slider"></span>
+    </label>
+</div>
 
-<p>
-    <h6>CORS политика</h6>
-    <div class="form-check">
-        <label class="switch">
-            @if (SecurityProvider.GetRule("UseCORS"))
-            {
-                <input id="UseCors" type="checkbox" data-api-endpoint="ChangeCorsOptions" checked>
-            }
-            else
-            {
-                <input id="UseCors" type="checkbox" data-api-endpoint="ChangeCorsOptions">
-            }
-            <span class="slider"></span>
-        </label>
-    </div>
-    <button class="toggle-description btn btn-light">
-        ▼
-    </button>
+<h3>CORS политика</h3>
+<button class="toggle-description btn btn-light">
+    ▼
+</button>
 
-    <div class="description-text">
-        <p>
-            CORS (Cross-Origin Resource Sharing) управляет доступом к ресурсам с других доменов,<br>
-            ограничивая или разрешая взаимодействие между разными сайтами.<br>
-            Это важно для защиты от несанкционированных запросов.<br>
-        </p>
-    </div>
-</p>
+<div class="description-text">
+    <p>
+        CORS (Cross-Origin Resource Sharing) управляет доступом к ресурсам с других доменов,<br>
+        ограничивая или разрешая взаимодействие между разными сайтами.<br>
+        Это важно для защиты от несанкционированных запросов.<br>
+    </p>
+</div>
+<div class="form-check">
+    <label class="switch">
+        @if (SecurityProvider.GetRule("UseCORS"))
+        {
+            <input id="UseCors" type="checkbox" data-api-endpoint="ChangeCorsOptions" checked>
+        }
+        else
+        {
+            <input id="UseCors" type="checkbox" data-api-endpoint="ChangeCorsOptions">
+        }
+        <span class="slider"></span>
+    </label>
+</div>
 
 
 

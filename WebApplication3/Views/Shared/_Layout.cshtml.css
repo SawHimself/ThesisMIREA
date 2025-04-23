@@ -1,48 +1,80 @@
-﻿/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
+﻿/* ===== БАЗОВАЯ СТРОКОВКА НАВИГАЦИИ ===== */
+.navbar {
+  background-color: var(--surface-color);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
 
 a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+  color: var(--primary-color);
+  font-size: 1.25rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  word-break: break-word;
 }
 
-a {
-  color: #0077cc;
+.navbar-nav .nav-link {
+  color: var(--text-secondary);
+  margin: 0 var(--spacing-sm);
+  transition: color .2s ease;
 }
 
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  color: #fff;
+}
+
+/* ===== КНОПКИ ===== */
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+.btn-primary:hover {
+  background-color: darken(var(--primary-color), 10%);
+  border-color: darken(var(--primary-color), 10%);
 }
 
+/* ===== НАВИГАЦИОННЫЕ ПИЛЛЫ ===== */
+.nav-pills .nav-link {
+  background: none;
+  border-radius: var(--border-radius);
+  color: var(--text-secondary);
+  padding: var(--spacing-sm) var(--spacing-md);
+}
+
+.nav-pills .nav-link.active {
+  background-color: var(--primary-color);
+  color: #fff;
+}
+
+/* ===== ГРАНИЦЫ И ТЕНИ ===== */
 .border-top {
-  border-top: 1px solid #e5e5e5;
+  border-top: 1px solid #333;
 }
+
 .border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid #333;
 }
 
 .box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+  box-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, .6);
 }
 
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
-}
-
+/* ===== ФУТЕР ===== */
 .footer {
+  background-color: var(--surface-color);
+  color: var(--text-secondary);
+  line-height: 60px;
   position: absolute;
   bottom: 0;
   width: 100%;
-  white-space: nowrap;
-  line-height: 60px;
+}
+
+/* ===== ПОЛИТИКА COOKIES ===== */
+button.accept-policy {
+  background-color: var(--accent-color);
+  color: #fff;
+  border-radius: var(--border-radius);
+  padding: var(--spacing-sm) var(--spacing-md);
+  transition: background-color .2s ease;
 }

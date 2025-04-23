@@ -1,38 +1,181 @@
+:root {
+    /* основные цвета */
+    --bg-color: #121212;
+    --surface-color: #1e1e1e;
+    --auxiliary-surface-color-1: #383838;
+    --auxiliary-surface-color-2: #444444;
+    --primary-color: #4a90e2;
+    --accent-color: #888888;
+    --text-color: #e0e0e0;
+    --text-secondary: #aaaaaa;
+
+    /* размеры, отступы, радиусы */
+    --border-radius: 8px;
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
+/* ==== БАЗОВЫЕ СТИЛИ ==== */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+    padding: 30px;
+}
+
+
 html {
-  font-size: 14px;
+    height: 100%;
+    margin: 0;
+    font-size: 14px;
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    scroll-behavior: smooth;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+@media (min-width: 600px) {
+    html {
+        height: 100%;
+        font-size: 16px;
+    }
 }
 
 body {
-  margin-bottom: 60px;
+    margin-left: 20vh;
+    margin-right: 7vh;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: var(--spacing-lg);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
 }
 
-.custom-btn {
-    background-color: #ccc; /* Серый фон */
-    border: none; /* Убираем границы */
-    border-radius: 5px; /* Делаем кнопку квадратной (убираем скругление) */
-    padding: 5px; /* Уменьшаем отступы */
-    width: 40px; /* Размер кнопки */
-    height: 40px;
-    display: flex;
+/* ==== КНОПКИ ==== */
+.btn {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: none;
+    border-radius: var(--border-radius);
+    background-color: var(--primary-color);
+    color: #fff;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color .2s ease, box-shadow .2s ease;
+}
+
+.btn:hover {
+    background-color: darken(var(--primary-color), 10%);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(74,144,226,0.6);
+}
+
+/* специальные кнопки */
+.custom-btn {
+    width: 40px;
+    height: 40px;
+    background-color: var(--accent-color);
+    border-radius: 50%;
+    color: #fff;
+    transition: background-color .2s ease;
 }
 
 .custom-btn:hover {
-    background-color: #aaa; /* Темнее при наведении */
+    background-color: lighten(var(--accent-color), 10%);
+}
+
+/* ==== ФОРМЫ И ИНПУТЫ ==== */
+input, select, textarea {
+    width: 100%;
+    padding: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+    background-color: var(--surface-color);
+    border: 1px solid #333;
+    border-radius: var(--border-radius);
+    color: var(--text-color);
+    font-size: 1rem;
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(74,144,226,0.3);
+}
+
+/* ==== ТЁМНЫЕ БЛОКИ ==== */
+.card, .panel {
+    background-color: var(--surface-color);
+    border-radius: var(--border-radius);
+    padding: 30px 50px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    margin-bottom: var(--spacing-lg);
+}
+
+/* ==== ТЕКСТ И ССЫЛКИ ==== */
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color .2s ease;
+}
+
+a:hover {
+    color: lighten(var(--primary-color), 10%);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #fff;
+    margin-top: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+    font-weight: 600;
+}
+
+/* ==== ПРОКРУТКА ==== */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #444;
+    border-radius: var(--border-radius);
+}
+
+/* ==== ФУТЕР ==== */
+footer {
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-sm);
+    background-color: var(--auxiliary-surface-color-2);
+    color: var(--text-color);
+    line-height: 1.6;;
+    text-align: center;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.5);
 }

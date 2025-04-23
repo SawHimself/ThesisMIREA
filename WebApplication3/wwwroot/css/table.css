@@ -1,0 +1,37 @@
+.table-custom {
+    border-collapse: separate;
+    border-spacing: 0;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0;
+    border: none;
+    border-radius: 16px;
+    overflow: hidden;
+    background-color: #1b2024; /* фон таблицы */
+    box-shadow: 0 0 0 2px #0056b3; /* рамка чуть толще */
+    color: #ffffff;  /* цвет текста светлый для контраста */
+}
+
+.table-custom th {
+    text-align: left;
+    padding: 12px 16px;
+    color: #ffffff;  /* заголовки также светлые */
+}
+
+.table-custom td {
+    text-align: left;
+    padding: 12px 16px;
+    word-wrap: break-word;
+    white-space: normal;
+    border-bottom: 1px solid #0056b3; /* синяя разделительная линия */
+}
+
+/* убрать нижнюю линию у последней строки */
+.table-custom tr:last-child td {
+    border-bottom: none;
+}
+
+/* последний столбец по центру */
+.table-custom td:last-child {
+    text-align: center;
+}

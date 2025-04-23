@@ -12,7 +12,7 @@
             <div class="col-md-6">
                 <!-- Таблица займет половину ширины контейнера -->
                 <h2>Все данные</h2>
-                <table class="table table-striped">
+                <table class="table-custom">
                     <thead>
                         <tr>
                             <th>Данные</th>
@@ -58,11 +58,11 @@
                     <form asp-action="AddSecret" method="post">
                         <div class="mb-1">
                             <label for="data" class="float-start">Данные:</label>
-                            <input type="text" id="data" name="Data" class="form-control" required />
+                            <textarea id="data" name="Data" class="form-control" required></textarea>
                         </div>
                         <div class="mb-1">
                             <label for="description" class="float-start">Описание:</label>
-                            <input type="text" id="description" name="Description" class="form-control" required />
+                            <textarea id="description" name="Description" class="form-control" required></textarea>
                         </div>
                         <div class="mb-1">
                             <input type="submit" value="Добавить" class="btn btn-primary btn-sm float-start" />

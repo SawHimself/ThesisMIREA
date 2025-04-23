@@ -1,0 +1,119 @@
+/* ===== БАЗОВАЯ СТРОКОВКА НАВИГАЦИИ ===== */
+.navbar {
+    background-color: var(--surface-color);
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    margin-bottom: var(--spacing-lg);
+    Padding-left: var(--spacing-lg);
+    display: flex;
+    flex-direction: row; /* Это уже правильно */
+    position: relative;
+    align-items: center;
+}
+
+/* ===== РАЗМЕЩЕНИЕ ЭЛЕМЕНТОВ СПИСКА В ГОРИЗОНТАЛЬНОМ ПОЛОЖЕНИИ ===== */
+.navbar-nav {
+    display: flex; /* Это добавляет горизонтальное расположение */
+    flex-direction: row; /* Элементы списка будут располагаться по горизонтали */
+}
+
+/* ===== Главная иконка ===== */
+a.navbar-brand {
+    color: var(--primary-color);
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    word-break: break-word;
+}
+
+.navbar-nav .nav-link {
+    color: var(--text-secondary);
+    margin: 0 var(--spacing-sm);
+    transition: color .2s ease;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+    color: #fff;
+}
+
+/* ===== НАВИГАЦИОННЫЕ ПИЛЛЫ ===== */
+.nav-pills .nav-link {
+    background: none;
+    border-radius: var(--border-radius);
+    color: var(--text-secondary);
+    padding: var(--spacing-sm) var(--spacing-md);
+}
+
+.nav-pills .nav-link.active {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.nav-item {
+    list-style-type: none; /* Убираем маркер (точку) слева */
+    padding: 5px 10px; /* Добавляем отступы вокруг элемента */
+    margin: 5px; /* Отступы между элементами */
+    border: 0px; /* Рамка вокруг элемента */
+    border-radius: 20px; /* Скругленные углы рамки */
+    transition: all 0.3s ease; /* Плавное изменение при наведении */
+}
+
+.nav-item:hover {
+    background-color: var(--primary-color); /* Цвет фона при наведении */
+    color: #fff; /* Цвет текста при наведении */
+}
+
+.login-partial {
+    position: absolute;
+    top: 50%; /* По центру по вертикали (можно настроить по своему) */
+    right: 0; /* Прикрепляется к правому краю */
+    transform: translateY(-50%); /* Выравнивание по центру по вертикали */
+    padding: 10px;
+}
+
+/* ===== КНОПКИ ===== */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: darken(var(--primary-color), 10%);
+    border-color: darken(var(--primary-color), 10%);
+}
+
+/* ===== ГРАНИЦЫ И ТЕНИ ===== */
+.border-top {
+    border-top: 1px solid #333;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #333;
+}
+
+.box-shadow {
+    box-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, .6);
+}
+
+/* ===== ПОЛИТИКА COOKIES ===== */
+button.accept-policy {
+    background-color: var(--accent-color);
+    color: #fff;
+    border-radius: var(--border-radius);
+    padding: var(--spacing-sm) var(--spacing-md);
+    transition: background-color .2s ease;
+}
+
+button.accept-policy:hover {
+    background-color: #a5a5a5;
+}
+
+/* ===== ДОПОЛНИТЕЛЬНО =====*/
+.div-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
