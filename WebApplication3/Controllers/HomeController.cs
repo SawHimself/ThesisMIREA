@@ -4,9 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using Services.SecuritySettings;
 using System.Diagnostics;
 using System.Security.Claims;
+using Services.ProcessingTime;
 using WebApplication3.Data;
 using WebApplication3.Models;
-//using static System.Net.Mime.MediaTypeNames;
+using Services.ProcessingTime;
 
 namespace WebApplication3.Controllers
 {
@@ -18,11 +19,12 @@ namespace WebApplication3.Controllers
 
         private static bool test1 = false;
 
-        public HomeController(ILogger<HomeController> logger, AppDbContext context, IConfiguration configuration)
+        public HomeController(ILogger<HomeController> logger, AppDbContext context, IConfiguration configuration, IRequestTimingService timingService)
         {
             _logger = logger;
             _context = context;
             _configuration = configuration;
+            _timingService = timingService;
         }
 
         [Authorize]
@@ -79,30 +81,13 @@ namespace WebApplication3.Controllers
             return RedirectToAction("Index");
         }
 
+        private readonly IRequestTimingService _timingService;
         public IActionResult Privacy()
-        {
+        {            
             ViewData["Test1"] = test1;
-            return View();
+            var timings = _timingService.GetLatest();
+            return View(timings);
         }
-
-/*        [HttpPost]
-        public IActionResult ToggleTest1([FromBody] ToggleRequest request)
-        {
-            if (request == null)
-            {
-                return BadRequest("Неверные данные запроса.");
-            }
-            bool isChecked = request.Checked;
-
-            if(SecurityProvider.UpdateRule("UseHtmlEscaping", isChecked))
-            {
-                return Ok(new { message = "Данные успешно обработаны", status = isChecked });
-            }
-            else
-            {
-                return StatusCode(500);
-            }
-        }*/
 
         public class ToggleRequest
         {

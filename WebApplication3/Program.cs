@@ -2,14 +2,18 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Services.SecuritySettings;
 using System.Diagnostics;
+using Services.ProcessingTime;
 using WebApplication3.Data;
 using WebApplication3.Models;
+using YourAppNamespace.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("default");
 builder.Services.AddDbContext<AppDbContext>(
     options => options.UseSqlite(connectionString));
+
+// 
 
 builder.Services.AddIdentity<AppUser, IdentityRole>(
     options =>
@@ -53,6 +57,11 @@ builder.Services.AddCors(options =>
     });
 });
 
+// Add processing time service
+var appDataPath = Path.Combine(AppContext.BaseDirectory, "App_Data");
+Directory.CreateDirectory(appDataPath);
+var timingsFilePath = Path.Combine(appDataPath, "request_timings.json");
+builder.Services.AddSingleton<IRequestTimingService>(new RequestTimingService(timingsFilePath));
 
 
 var app = builder.Build();
@@ -96,35 +105,10 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.UseMiddleware<RequestTimingMiddleware>();
+app.UseRequestTiming();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
-
-
-public class RequestTimingMiddleware
-{
-    private readonly RequestDelegate _next;
-
-    public RequestTimingMiddleware(RequestDelegate next)
-    {
-        _next = next;
-    }
-
-    public async Task InvokeAsync(HttpContext context)
-    {
-        var stopwatch = Stopwatch.StartNew();
-        
-        // Передаем управление следующему компоненту
-        await _next(context);
-
-        stopwatch.Stop();
-        var elapsedMilliseconds = stopwatch.ElapsedMilliseconds;
-
-        // Логируем или сохраняем время обработки
-        Console.WriteLine($"Обработка запроса {context.Request.Path} заняла {elapsedMilliseconds} мс.");
-    }
-}

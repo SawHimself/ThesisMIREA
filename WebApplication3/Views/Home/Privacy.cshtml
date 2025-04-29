@@ -1,7 +1,8 @@
 ﻿    @{
     ViewData["Title"] = "Админ панель";
 }
-@using Services.SecuritySettings
+    @using Services.SecuritySettings
+    @model IEnumerable<Services.ProcessingTime.RequestTimingInfo>
 
 <div style="display: flex; align-items: center;">
         <h1 style="margin: 0;">@ViewData["Title"]</h1>
@@ -113,127 +114,155 @@
     
  </style>
 
-<h1 class="display-4">Настройки механизмов безопасности</h1>
+    <div style="display: flex;">
+        <div style="flex: 1;">
+            <h1 class="display-4">Настройки механизмов безопасности</h1>
 
-<h3>HTML экранирование</h3>
-<button class="toggle-description btn btn-light">
-    ▼
-</button>
+            <h3>HTML экранирование</h3>
+            <button class="toggle-description btn btn-light">
+                ▼
+            </button>
 
-<div class="description-text">
-    <p>
-        Экранирование HTML помогает защитить приложение от XSS-атак, <br>
-        преобразуя специальные символы в безопасные текстовые представления. <br>
-        Это предотвращает внедрение вредоносного HTML или JavaScript в страницы.<br>
-    </p>
-</div>
-<div class="form-check">
-    <label class="switch">
-        @if (SecurityProvider.GetRule("UseHtmlEscaping"))
-        {
-            <input id="HtmlEscapeSwitch" type="checkbox" data-api-endpoint="ChangeHtmlEscaping" checked>
-        }
-        else
-        {
-            <input id="HtmlEscapeSwitch" type="checkbox" data-api-endpoint="ChangeHtmlEscaping">
-        }
-        <span class="slider"></span>
-    </label>
-</div>
+            <div class="description-text">
+                <p>
+                    Экранирование HTML помогает защитить приложение от XSS-атак, <br>
+                    преобразуя специальные символы в безопасные текстовые представления. <br>
+                    Это предотвращает внедрение вредоносного HTML или JavaScript в страницы.<br>
+                </p>
+            </div>
+            <div class="form-check">
+                <label class="switch">
+                    @if (SecurityProvider.GetRule("UseHtmlEscaping"))
+                    {
+                        <input id="HtmlEscapeSwitch" type="checkbox" data-api-endpoint="ChangeHtmlEscaping" checked>
+                    }
+                    else
+                    {
+                        <input id="HtmlEscapeSwitch" type="checkbox" data-api-endpoint="ChangeHtmlEscaping">
+                    }
+                    <span class="slider"></span>
+                </label>
+            </div>
 
-<h3>SQL экранирование</h3>
-<button class="toggle-description btn btn-light">
-    ▼
-</button>
+            <h3>SQL экранирование</h3>
+            <button class="toggle-description btn btn-light">
+                ▼
+            </button>
 
-<div class="description-text">
-    <p>
-        Экранирование SQL-данных защищает от SQL-инъекций, автоматически обрабатывая пользовательский ввод<br>
-        и не позволяя ему изменять структуру SQL-запросов.<br>
-    </p>
-</div>
-<div class="form-check">
-    <label class="switch">
-        @if (SecurityProvider.GetRule("UseSQLEscaping"))
-        {
-            <input id="UseSqlEscaping" type="checkbox" data-api-endpoint="ChangeSqlEscaping" checked>
-        }
-        else
-        {
-            <input id="UseSqlEscaping" type="checkbox" data-api-endpoint="ChangeSqlEscaping">
-        }
-        <span class="slider"></span>
-    </label>
-</div>
+            <div class="description-text">
+                <p>
+                    Экранирование SQL-данных защищает от SQL-инъекций, автоматически обрабатывая пользовательский ввод<br>
+                    и не позволяя ему изменять структуру SQL-запросов.<br>
+                </p>
+            </div>
+            <div class="form-check">
+                <label class="switch">
+                    @if (SecurityProvider.GetRule("UseSQLEscaping"))
+                    {
+                        <input id="UseSqlEscaping" type="checkbox" data-api-endpoint="ChangeSqlEscaping" checked>
+                    }
+                    else
+                    {
+                        <input id="UseSqlEscaping" type="checkbox" data-api-endpoint="ChangeSqlEscaping">
+                    }
+                    <span class="slider"></span>
+                </label>
+            </div>
 
-<h3>Валидация данных на стороне сервера</h3>
-<button class="toggle-description btn btn-light">
-    ▼
-</button>
+            <h3>Валидация данных на стороне сервера</h3>
+            <button class="toggle-description btn btn-light">
+                ▼
+            </button>
 
-<div class="description-text">
-    <p>
-        Валидация проверяет данные перед их обработкой на сервере, даже если они уже были проверены в браузере.<br>
-        Это предотвращает отправку некорректной или вредоносной информации.<br>
-    </p>
-</div>
-<div class="form-check">
-    <label class="switch">
-        <!-- Место под input при необходимости -->
-    </label>
-</div>
+            <div class="description-text">
+                <p>
+                    Валидация проверяет данные перед их обработкой на сервере, даже если они уже были проверены в браузере.<br>
+                    Это предотвращает отправку некорректной или вредоносной информации.<br>
+                </p>
+            </div>
+            <div class="form-check">
+                <label class="switch">
+                    <!-- Место под input при необходимости -->
+                </label>
+            </div>
 
-<h3>X-FRAME-OPTIONS</h3>
-<button class="toggle-description btn btn-light">
-    ▼
-</button>
+            <h3>X-FRAME-OPTIONS</h3>
+            <button class="toggle-description btn btn-light">
+                ▼
+            </button>
 
-<div class="description-text">
-    <p>
-        X-FRAME-OPTIONS предотвращает загрузку вашего сайта в iframe на другом ресурсе,<br>
-        что защищает от clickjacking-атак.<br>
-    </p>
-</div>
-<div class="form-check">
-    <label class="switch">
-        @if (SecurityProvider.GetRule("UseXFrameOptions"))
-        {
-            <input id="UseXFrameOptions" type="checkbox" data-api-endpoint="ChangeXFrameOptions" checked>
-        }
-        else
-        {
-            <input id="UseXFrameOptions" type="checkbox" data-api-endpoint="ChangeXFrameOptions">
-        }
-        <span class="slider"></span>
-    </label>
-</div>
+            <div class="description-text">
+                <p>
+                    X-FRAME-OPTIONS предотвращает загрузку вашего сайта в iframe на другом ресурсе,<br>
+                    что защищает от clickjacking-атак.<br>
+                </p>
+            </div>
+            <div class="form-check">
+                <label class="switch">
+                    @if (SecurityProvider.GetRule("UseXFrameOptions"))
+                    {
+                        <input id="UseXFrameOptions" type="checkbox" data-api-endpoint="ChangeXFrameOptions" checked>
+                    }
+                    else
+                    {
+                        <input id="UseXFrameOptions" type="checkbox" data-api-endpoint="ChangeXFrameOptions">
+                    }
+                    <span class="slider"></span>
+                </label>
+            </div>
 
-<h3>CORS политика</h3>
-<button class="toggle-description btn btn-light">
-    ▼
-</button>
+            <h3>CORS политика</h3>
+            <button class="toggle-description btn btn-light">
+                ▼
+            </button>
 
-<div class="description-text">
-    <p>
-        CORS (Cross-Origin Resource Sharing) управляет доступом к ресурсам с других доменов,<br>
-        ограничивая или разрешая взаимодействие между разными сайтами.<br>
-        Это важно для защиты от несанкционированных запросов.<br>
-    </p>
-</div>
-<div class="form-check">
-    <label class="switch">
-        @if (SecurityProvider.GetRule("UseCORS"))
-        {
-            <input id="UseCors" type="checkbox" data-api-endpoint="ChangeCorsOptions" checked>
-        }
-        else
-        {
-            <input id="UseCors" type="checkbox" data-api-endpoint="ChangeCorsOptions">
-        }
-        <span class="slider"></span>
-    </label>
-</div>
+            <div class="description-text">
+                <p>
+                    CORS (Cross-Origin Resource Sharing) управляет доступом к ресурсам с других доменов,<br>
+                    ограничивая или разрешая взаимодействие между разными сайтами.<br>
+                    Это важно для защиты от несанкционированных запросов.<br>
+                </p>
+            </div>
 
+            <div class="form-check">
+                <label class="switch">
+                    @if (SecurityProvider.GetRule("UseCORS"))
+                    {
+                        <input id="UseCors" type="checkbox" data-api-endpoint="ChangeCorsOptions" checked>
+                    }
+                    else
+                    {
+                        <input id="UseCors" type="checkbox" data-api-endpoint="ChangeCorsOptions">
+                    }
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+        
+        <div style="flex: 1; margin-left: 20px;">
+            <h2>Скорость обработки запросов</h2>
+
+            <table class="table-custom">
+                <thead>
+                <tr>
+                    <th>Путь</th>
+                    <th>Длительность (мс)</th>
+                    <th>Время запроса (UTC)</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var timing in Model)
+                {
+                    <tr>
+                        <td>@timing.Path</td>
+                        <td>@timing.DurationMilliseconds</td>
+                        <td>@timing.Timestamp.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
 
 
 <script>

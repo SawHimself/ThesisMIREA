@@ -2,13 +2,16 @@
 using Microsoft.AspNetCore.Mvc;
 using Services.SecuritySettings;
 using System.Text.Json;
+using Services.ProcessingTime;
 
 namespace WebApplication3.Controllers
 {
+    
     [Route("api/admin")]
     [ApiController]
-    public class AdminController : Controller
+    public class AdminController(IRequestTimingService timingService) : Controller
     {
+
         [HttpPost("ChangeHtmlEscaping")]
         public IActionResult ChangeHtmlEscaping([FromBody] ToggleRequest? request)
         {
