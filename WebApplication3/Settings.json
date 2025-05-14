@@ -4,6 +4,7 @@
     "UseSQLEscaping": false,
     "UseCSP": false,
     "UseCORS": true,
-    "UseXFrameOptions": false
+    "UseXFrameOptions": false,
+    "RefererChecking": false
   }
 }

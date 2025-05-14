@@ -211,6 +211,34 @@
                 </label>
             </div>
 
+            <h3>Проверка заголовка Referer</h3>
+            <button class="toggle-description btn btn-light">
+                ▼
+            </button>
+
+            <div class="description-text">
+                <p>
+                    До широкого внедрения специальных CSRF-токенов, разработчики иногда полагались на проверку заголовка HTTP Referer 
+                    как средство защиты от межсайтовой подделки запросов. <br> 
+                    Механизм основан на том, что при обычном переходе или отправке формы браузер указывает страницу-источник запроса в заголовке Referer.<br> 
+                    Если запрос на чувствительное действие (например, перевод денег) пришёл от страницы с другого домена, можно заподозрить атаку и отклонить его.
+                </p>
+            </div>
+
+            <div class="form-check">
+                <label class="switch">
+                    @if (SecurityProvider.GetRule("RefererChecking"))
+                    {
+                        <input id="UseCors" type="checkbox" data-api-endpoint="ChangeCorsOptions" checked>
+                    }
+                    else
+                    {
+                        <input id="UseCors" type="checkbox" data-api-endpoint="ChangeCorsOptions">
+                    }
+                    <span class="slider"></span>
+                </label>
+            </div>
+
             <h3>CORS политика</h3>
             <button class="toggle-description btn btn-light">
                 ▼

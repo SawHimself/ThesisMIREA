@@ -28,6 +28,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// Configuring UseXFrameOptions
 builder.Services.AddAntiforgery(options =>
 {
     if(SecurityProvider.GetRule("UseXFrameOptions"))
@@ -66,6 +67,26 @@ builder.Services.AddSingleton<IRequestTimingService>(new RequestTimingService(ti
 
 var app = builder.Build();
 
+// Configuring RefererChecking
+if (SecurityProvider.GetRule("RefererChecking"))
+{
+    app.Use(async (context, next) =>
+    {
+        if (context.Request.Method == "POST")
+        {
+            string referer = context.Request.Headers["Referer"];
+            if (!string.IsNullOrEmpty(referer) && !referer.StartsWith("https://localhost", StringComparison.OrdinalIgnoreCase))
+            {
+                // Блокируем запрос, если Referer не наш
+                context.Response.StatusCode = 403;
+                await context.Response.WriteAsync("Forbidden: invalid referer");
+                return;
+            }
+        }
+        await next();
+    });
+}
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -94,6 +115,16 @@ else
     app.Use(async (context, next) =>
     {
         context.Response.Headers.Remove("Content-Security-Policy");
+        await next();
+    });
+}
+
+// Configuring X-XSS-Protection
+if(SecurityProvider.GetRule("UseCSP"))
+{
+    app.Use(async (context, next) =>
+    {
+        context.Response.Headers.Append("X-XSS-Protection", "1; mode=block");
         await next();
     });
 }
