@@ -22,7 +22,7 @@ namespace WebApplication3.Controllers
 
             bool isChecked = request.Checked;
 
-            if (SecurityProvider.UpdateRule("UseHtmlEscaping", isChecked))
+            if (SecurityProvider.UpdateRule("UseHTMLEscaping", isChecked))
             {
                 return Ok(new { message = "Данные успешно обработаны", status = isChecked });
             }
@@ -72,6 +72,46 @@ namespace WebApplication3.Controllers
             }
         }
 
+        [HttpPost("ChangeRefererChecking")]
+        public IActionResult ChangeRefererChecking([FromBody] ToggleRequest? request)
+        {
+            if (request == null)
+            {
+                return BadRequest("Неверные данные запроса.");
+            }
+
+            bool isChecked = request.Checked;
+
+            if (SecurityProvider.UpdateRule("RefererChecking", isChecked))
+            {
+                return Ok(new { message = "Данные успешно обработаны", status = isChecked });
+            }
+            else
+            {
+                return StatusCode(500);
+            }
+        }
+        
+        [HttpPost("ChangeMagicQuotesOptions")]
+        public IActionResult ChangeMagicQuotesOptions([FromBody] ToggleRequest? request)
+        {
+            if (request == null)
+            {
+                return BadRequest("Неверные данные запроса.");
+            }
+
+            bool isChecked = request.Checked;
+
+            if (SecurityProvider.UpdateRule("MagicQuotes", isChecked))
+            {
+                return Ok(new { message = "Данные успешно обработаны", status = isChecked });
+            }
+            else
+            {
+                return StatusCode(500);
+            }
+        }
+        
         [HttpPost("ChangeCorsOptions")]
         public IActionResult ChangeCorsOptions([FromBody] ToggleRequest? request)
         {

@@ -1,22 +1,15 @@
-using Services.ProcessingTime;
 using System.Diagnostics;
+using Services.ProcessingTime;
 
-public class RequestTimingMiddleware
+namespace WebApplication3.Middleware;
+
+public class RequestTimingMiddleware(RequestDelegate next, IRequestTimingService timingService)
 {
-    private readonly RequestDelegate _next;
-    private readonly IRequestTimingService _timingService;
-
-    public RequestTimingMiddleware(RequestDelegate next, IRequestTimingService timingService)
-    {
-        _next = next;
-        _timingService = timingService;
-    }
-
     public async Task InvokeAsync(HttpContext context)
     {
         var stopwatch = Stopwatch.StartNew();
 
-        await _next(context);
+        await next(context);
 
         stopwatch.Stop();
 
@@ -27,6 +20,9 @@ public class RequestTimingMiddleware
             Timestamp = DateTime.UtcNow
         };
 
-        _timingService.Add(info);
+        if (!info.Path.Contains("/api/admin"))
+        {
+            timingService.Add(info);   
+        }
     }
 }

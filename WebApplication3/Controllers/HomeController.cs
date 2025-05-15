@@ -40,26 +40,33 @@ namespace WebApplication3.Controllers
 
             return View(secrets);
         }
-
+        
         [HttpPost]
-        public async Task<IActionResult> AddSecret(string Data, string Description)
+        public async Task<IActionResult> AddSecret(string? data, string? description)
         {
-            if (string.IsNullOrWhiteSpace(Data) || string.IsNullOrWhiteSpace(Description))
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            
+            if (SecurityProvider.GetRule("MagicQuotes"))
+            {
+                data = data?.Replace("'", "\\'").Replace("\"", "\\\"");
+
+                description = description?.Replace("'", "\\'").Replace("\"", "\\\"");
+            }
+            
+            if (string.IsNullOrWhiteSpace(data) || string.IsNullOrWhiteSpace(description) || string.IsNullOrWhiteSpace(userId))
             {
                 return RedirectToAction("Index");
             }
 
-            SecretData newData = new SecretData()
+            SecretData newData = new SecretData
             {
                 Id = Guid.NewGuid().ToString(),
-                Data = Data,
-                Description = Description,
+                Data = data ?? "",
+                Description = description,
                 CreationDate = DateTime.Now,
-                UpdateDate = DateTime.Now
+                UpdateDate = DateTime.Now,
+                UserId = userId
             };
-
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            newData.UserId = userId;
 
             _context.secrets.Add(newData);
             await _context.SaveChangesAsync();
@@ -68,16 +75,16 @@ namespace WebApplication3.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeleteSecret(string DataId)
+        public async Task<IActionResult> DeleteSecret(string dataId)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var currentData = await _context.secrets.FirstOrDefaultAsync(s => s.Id == DataId & s.UserId == userId);
+            var currentData = await _context.secrets.FirstOrDefaultAsync(s => s.Id == dataId & s.UserId == userId);
             if(currentData != null)
             {
                 _context.secrets.Remove(currentData);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
-            //_context.secrets.Delete
+            
             return RedirectToAction("Index");
         }
 

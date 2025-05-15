@@ -1,10 +1,12 @@
 {
   "Rule": {
-    "UseHtmlEscaping": true,
-    "UseSQLEscaping": false,
-    "UseCSP": false,
+    "UseHTMLEscaping": true,
+    "UseSQLEscaping": true,
+    "UseCSP": true,
     "UseCORS": true,
-    "UseXFrameOptions": false,
-    "RefererChecking": false
+    "UseXFrameOptions": true,
+    "RefererChecking": true,
+    "MagicQuotes": true,
+    "UseHtmlEscaping": false
   }
 }

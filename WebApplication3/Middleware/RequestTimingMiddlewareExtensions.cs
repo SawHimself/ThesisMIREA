@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Builder;
+using WebApplication3.Middleware;
 
 namespace YourAppNamespace.Middleware
 {

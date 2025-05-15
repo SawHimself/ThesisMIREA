@@ -31,7 +31,7 @@
                         @foreach (var secret in Model)
                         {
                             <tr>
-                                @if (SecurityProvider.GetRule("UseHtmlEscaping"))
+                                @if (SecurityProvider.GetRule("UseHTMLEscaping"))
                                 {
                                     <td>@secret.Data</td>
                                     <td>@secret.Description</td>

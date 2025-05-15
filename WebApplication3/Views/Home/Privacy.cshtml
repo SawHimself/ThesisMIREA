@@ -118,6 +118,8 @@
         <div style="flex: 1;">
             <h1 class="display-4">Настройки механизмов безопасности</h1>
 
+
+            <!---  --->
             <h3>HTML экранирование</h3>
             <button class="toggle-description btn btn-light">
                 ▼
@@ -132,7 +134,7 @@
             </div>
             <div class="form-check">
                 <label class="switch">
-                    @if (SecurityProvider.GetRule("UseHtmlEscaping"))
+                    @if (SecurityProvider.GetRule("UseHTMLEscaping"))
                     {
                         <input id="HtmlEscapeSwitch" type="checkbox" data-api-endpoint="ChangeHtmlEscaping" checked>
                     }
@@ -144,6 +146,8 @@
                 </label>
             </div>
 
+
+            <!---  --->
             <h3>SQL экранирование</h3>
             <button class="toggle-description btn btn-light">
                 ▼
@@ -169,6 +173,34 @@
                 </label>
             </div>
 
+            <!---  --->
+            <h3>Политика безопасности контента</h3>
+            <button class="toggle-description btn btn-light">
+                ▼
+            </button>
+
+            <div class="description-text">
+                <p>
+                    Политика безопасности контента это стандарт, который сообщает сайту, какие источники данных заслуживают доверия, а какие — нет. <br>
+                    Для этого на страницу добавляется HTTP-заголовок Content-Security-Policy и директивы. <br>
+                    Каждая директива представляет собой «белый список», в котором через пробел прописаны источники контента.<br>
+                </p>
+            </div>
+            <div class="form-check">
+                <label class="switch">
+                    @if (SecurityProvider.GetRule("UseCSP"))
+                    {
+                        <input id="CspOptions" type="checkbox" data-api-endpoint="ChangeCspOptions" checked>
+                    }
+                    else
+                    {
+                        <input id="CspOptions" type="checkbox" data-api-endpoint="ChangeCspOptions">
+                    }
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <!---  --->
             <h3>Валидация данных на стороне сервера</h3>
             <button class="toggle-description btn btn-light">
                 ▼
@@ -186,6 +218,8 @@
                 </label>
             </div>
 
+
+            <!---  --->
             <h3>X-FRAME-OPTIONS</h3>
             <button class="toggle-description btn btn-light">
                 ▼
@@ -210,7 +244,9 @@
                     <span class="slider"></span>
                 </label>
             </div>
-
+            
+            
+            <!---  --->
             <h3>Проверка заголовка Referer</h3>
             <button class="toggle-description btn btn-light">
                 ▼
@@ -224,21 +260,22 @@
                     Если запрос на чувствительное действие (например, перевод денег) пришёл от страницы с другого домена, можно заподозрить атаку и отклонить его.
                 </p>
             </div>
-
             <div class="form-check">
                 <label class="switch">
                     @if (SecurityProvider.GetRule("RefererChecking"))
                     {
-                        <input id="UseCors" type="checkbox" data-api-endpoint="ChangeCorsOptions" checked>
+                        <input id="UseCors" type="checkbox" data-api-endpoint="ChangeRefererChecking" checked>
                     }
                     else
                     {
-                        <input id="UseCors" type="checkbox" data-api-endpoint="ChangeCorsOptions">
+                        <input id="UseCors" type="checkbox" data-api-endpoint="ChangeRefererChecking">
                     }
                     <span class="slider"></span>
                 </label>
             </div>
-
+            
+            
+            <!---  --->
             <h3>CORS политика</h3>
             <button class="toggle-description btn btn-light">
                 ▼
@@ -251,7 +288,6 @@
                     Это важно для защиты от несанкционированных запросов.<br>
                 </p>
             </div>
-
             <div class="form-check">
                 <label class="switch">
                     @if (SecurityProvider.GetRule("UseCORS"))
@@ -261,6 +297,34 @@
                     else
                     {
                         <input id="UseCors" type="checkbox" data-api-endpoint="ChangeCorsOptions">
+                    }
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            
+            <!---  --->
+            <h3>Магические кавычки</h3>
+            <button class="toggle-description btn btn-light">
+                ▼
+            </button>
+
+            <div class="description-text">
+                <p>
+                    CORS (Cross-Origin Resource Sharing) управляет доступом к ресурсам с других доменов,<br>
+                    ограничивая или разрешая взаимодействие между разными сайтами.<br>
+                    Это важно для защиты от несанкционированных запросов.<br>
+                </p>
+            </div>
+            <div class="form-check">
+                <label class="switch">
+                    @if (SecurityProvider.GetRule("MagicQuotes"))
+                    {
+                        <input id="UseCors" type="checkbox" data-api-endpoint="ChangeMagicQuotesOptions" checked>
+                    }
+                    else
+                    {
+                        <input id="UseCors" type="checkbox" data-api-endpoint="ChangeMagicQuotesOptions">
                     }
                     <span class="slider"></span>
                 </label>

@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Services.SecuritySettings;
-using System.Diagnostics;
 using Services.ProcessingTime;
 using WebApplication3.Data;
 using WebApplication3.Models;
@@ -12,8 +11,6 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("default");
 builder.Services.AddDbContext<AppDbContext>(
     options => options.UseSqlite(connectionString));
-
-// 
 
 builder.Services.AddIdentity<AppUser, IdentityRole>(
     options =>
@@ -74,8 +71,8 @@ if (SecurityProvider.GetRule("RefererChecking"))
     {
         if (context.Request.Method == "POST")
         {
-            string referer = context.Request.Headers["Referer"];
-            if (!string.IsNullOrEmpty(referer) && !referer.StartsWith("https://localhost", StringComparison.OrdinalIgnoreCase))
+            string referer = context.Request.Headers["Referer"]!;
+            if (!string.IsNullOrEmpty(referer) && !referer.StartsWith("http://localhost", StringComparison.OrdinalIgnoreCase))
             {
                 // Блокируем запрос, если Referer не наш
                 context.Response.StatusCode = 403;
@@ -100,13 +97,16 @@ if (SecurityProvider.GetRule("UseCORS"))
 {
     app.UseCors("DefaultPolicy");
 }
+
 // Configuring CSP
 if(SecurityProvider.GetRule("UseCSP"))
 {
     app.Use(async (context, next) =>
     {
+        /*context.Response.Headers.Append("Content-Security-Policy",
+            "default-src 'self'; script-src 'self'");*/ 
         context.Response.Headers.Append("Content-Security-Policy",
-            "default-src 'self'; script-src 'self'");
+            "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'");
         await next();
     });
 }
