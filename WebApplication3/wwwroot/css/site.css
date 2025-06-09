@@ -1,13 +1,13 @@
 :root {
     /* основные цвета */
-    --bg-color: #121212;
-    --surface-color: #1e1e1e;
+    --bg-color: #ffffff;
+    --surface-color: #c4e2f3;
     --auxiliary-surface-color-1: #383838;
     --auxiliary-surface-color-2: #444444;
     --primary-color: #4a90e2;
     --accent-color: #888888;
-    --text-color: #e0e0e0;
-    --text-secondary: #aaaaaa;
+    --text-color: black;
+    --text-secondary: black;
 
     /* размеры, отступы, радиусы */
     --border-radius: 8px;
@@ -42,7 +42,7 @@ html {
     margin: 0;
     font-size: 14px;
     font-family: var(--font-family);
-    background-color: var(--bg-color);
+    background-color: white;
     color: var(--text-color);
     scroll-behavior: smooth;
 }

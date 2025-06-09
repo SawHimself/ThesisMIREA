@@ -7,15 +7,15 @@
     border: none;
     border-radius: 16px;
     overflow: hidden;
-    background-color: #1b2024; /* фон таблицы */
-    box-shadow: 0 0 0 2px #0056b3; /* рамка чуть толще */
-    color: #ffffff;  /* цвет текста светлый для контраста */
+    background-color: #95bdea; /* фон таблицы */
+    box-shadow: 0 0 0 2px #5e70de; /* рамка чуть толще */
+    color: #434e98;  /* цвет текста светлый для контраста */
 }
 
 .table-custom th {
     text-align: left;
     padding: 12px 16px;
-    color: #ffffff;  /* заголовки также светлые */
+    color: #434e98;  /* заголовки также светлые */
 }
 
 .table-custom td {

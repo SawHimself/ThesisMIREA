@@ -103,10 +103,10 @@ if(SecurityProvider.GetRule("UseCSP"))
 {
     app.Use(async (context, next) =>
     {
-        /*context.Response.Headers.Append("Content-Security-Policy",
-            "default-src 'self'; script-src 'self'");*/ 
         context.Response.Headers.Append("Content-Security-Policy",
-            "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'");
+            "default-src 'self'; script-src 'self'"); 
+        /*context.Response.Headers.Append("Content-Security-Policy",
+            "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'");*/
         await next();
     });
 }

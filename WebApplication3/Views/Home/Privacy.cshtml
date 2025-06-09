@@ -1,6 +1,4 @@
-﻿    @{
-    ViewData["Title"] = "Админ панель";
-}
+﻿    <h1 style="color: #333333"> Админ панель </h1>
     @using Services.SecuritySettings
     @model IEnumerable<Services.ProcessingTime.RequestTimingInfo>
 
@@ -15,112 +13,13 @@
     <p style="text-indent: 30px; margin-top: 5px">Кроме того, на странице реализована возможность просмотра журнала событий, фиксирующего время обработки входящих HTTP-запросов, что позволяет проводить оценку влияния активных защитных механизмов на производительность приложения. </p>
     <p style="text-indent: 30px; margin-top: 5px;">Обращаем внимание, что применение изменений в настройках отдельных механизмов защиты требует перезапуска веб-приложения, поскольку такие изменения затрагивают элементы архитектуры, инициализируемые на этапе старта системы.</p>
 </div>
-  <style type="text/css">
-    .switch {
-        position: relative;
-        display: inline-block;
-        width: 60px;
-        height: 34px;
-    }
-
-    .switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
-
-
-    .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        border-radius: 34px;
-        background-color: #ccc;
-        -webkit-transition: .4s;
-        transition: .4s;
-    }
-
-    .slider:before {
-        position: absolute;
-        border-radius: 50%;
-        content: "";
-        height: 26px;
-        width: 26px;
-        left: 4px;
-        bottom: 4px;
-        background-color: white;
-        -webkit-transition: .4s;
-        transition: .4s;
-    }
-
-    input:checked + .slider {
-        background-color: #2196F3;
-    }
-
-    input:focus + .slider {
-        box-shadow: 0 0 1px #2196F3;
-    }
-
-    input:checked + .slider:before {
-        -webkit-transform: translateX(26px);
-        -ms-transform: translateX(26px);
-        transform: translateX(26px);
-    }
-    #rebootRequiredMessage {
-        display: none;
-        margin-left: 25px;
-        margin-top: 10px;
-        padding: 10px 10px;
-        border-radius: 20px;
-        background-color: #E60000;
-        color: white;
-        font-size: large;
-        font-weight: bold;
-    }
-
-    .toggle-description {
-        background: none;
-        border: none;
-        outline: none;
-        cursor: pointer;
-        font-size: 18px;
-        line-height: 1;
-        padding: 0;
-        user-select: none;
-        margin-bottom: 10px;
-    }
-
-    .toggle-description:focus,
-    .toggle-description:active {
-        outline: none;
-        box-shadow: none;
-    }
-
-    .description-text {
-        color: #b0b7c6;
-        max-height: 0;
-        overflow: hidden;
-        opacity: 0;
-        transition: max-height 0.5s ease, opacity 0.5s ease;
-    }
-
-    .description-text.show {
-        max-height: 200px;
-        opacity: 1;
-    }
-    
- </style>
-
     <div style="display: flex;">
         <div style="flex: 1;">
-            <h1 class="display-4">Настройки механизмов безопасности</h1>
+            <h1 class="display-4" style="color: #333333">Настройки механизмов безопасности</h1>
 
 
             <!---  --->
-            <h3>HTML экранирование</h3>
+            <h3 style="color: #333333">HTML экранирование</h3>
             <button class="toggle-description btn btn-light">
                 ▼
             </button>
@@ -148,7 +47,7 @@
 
 
             <!---  --->
-            <h3>SQL экранирование</h3>
+            <h3 style="color: #333333">SQL экранирование</h3>
             <button class="toggle-description btn btn-light">
                 ▼
             </button>
@@ -174,7 +73,7 @@
             </div>
 
             <!---  --->
-            <h3>Политика безопасности контента</h3>
+            <h3 style="color: #333333">Политика безопасности контента</h3>
             <button class="toggle-description btn btn-light">
                 ▼
             </button>
@@ -200,27 +99,9 @@
                 </label>
             </div>
 
-            <!---  --->
-            <h3>Валидация данных на стороне сервера</h3>
-            <button class="toggle-description btn btn-light">
-                ▼
-            </button>
-
-            <div class="description-text">
-                <p>
-                    Валидация проверяет данные перед их обработкой на сервере, даже если они уже были проверены в браузере.<br>
-                    Это предотвращает отправку некорректной или вредоносной информации.<br>
-                </p>
-            </div>
-            <div class="form-check">
-                <label class="switch">
-                    <!-- Место под input при необходимости -->
-                </label>
-            </div>
-
 
             <!---  --->
-            <h3>X-FRAME-OPTIONS</h3>
+            <h3 style="color: #333333">X-FRAME-OPTIONS</h3>
             <button class="toggle-description btn btn-light">
                 ▼
             </button>
@@ -247,7 +128,7 @@
             
             
             <!---  --->
-            <h3>Проверка заголовка Referer</h3>
+            <h3 style="color: #333333">Проверка заголовка Referer</h3>
             <button class="toggle-description btn btn-light">
                 ▼
             </button>
@@ -276,7 +157,7 @@
             
             
             <!---  --->
-            <h3>CORS политика</h3>
+            <h3 style="color: #333333">CORS политика</h3>
             <button class="toggle-description btn btn-light">
                 ▼
             </button>
@@ -304,7 +185,7 @@
             
             
             <!---  --->
-            <h3>Магические кавычки</h3>
+            <h3 style="color: #333333">Магические кавычки</h3>
             <button class="toggle-description btn btn-light">
                 ▼
             </button>
@@ -332,7 +213,7 @@
         </div>
         
         <div style="flex: 1; margin-left: 20px;">
-            <h2>Скорость обработки запросов</h2>
+            <h2 style="color: #333333">Скорость обработки запросов</h2>
 
             <table class="table-custom">
                 <thead>
@@ -355,46 +236,5 @@
             </table>
         </div>
     </div>
-
-
-<script>
-    document.querySelectorAll('input[type="checkbox"][data-api-endpoint]').forEach(function (checkbox) {
-        checkbox.addEventListener('change', function () {
-            const url = `/api/admin/${this.getAttribute('data-api-endpoint')}`;
-            const data = JSON.stringify({ checked: this.checked });
-
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', url, true);
-            xhr.setRequestHeader('Content-Type', 'application/json');
-
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4) {
-                    if (xhr.status === 200) {
-                        console.log(`Настройка "${checkbox.id}" успешно отправлена:`, xhr.responseText);
-
-                        if (checkbox.id === "UseCors") {
-                            const notice = document.getElementById("rebootRequiredMessage");
-                            notice.style.display = 'inline-block';
-                        }
-
-                    } else {
-                        console.error(`Ошибка при отправке настройки "${checkbox.id}":`, xhr.status, xhr.statusText);
-                    }
-                }
-            };
-
-            xhr.send(data);
-        });
-    });
-</script>
-
-<script>
-    document.querySelectorAll('.toggle-description').forEach(function(button) {
-        button.addEventListener('click', function () {
-            const description = this.nextElementSibling;
-            description.classList.toggle('show');
-
-            this.textContent = description.classList.contains('show') ? "▲" : "▼";
-        });
-    });
-</script>
+    
+    <script src="~/js/site.js" asp-append-version="true"></script>

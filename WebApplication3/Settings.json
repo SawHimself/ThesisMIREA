@@ -3,10 +3,10 @@
     "UseHTMLEscaping": true,
     "UseSQLEscaping": true,
     "UseCSP": true,
-    "UseCORS": true,
-    "UseXFrameOptions": true,
-    "RefererChecking": true,
-    "MagicQuotes": true,
+    "UseCORS": false,
+    "UseXFrameOptions": false,
+    "RefererChecking": false,
+    "MagicQuotes": false,
     "UseHtmlEscaping": false
   }
 }
